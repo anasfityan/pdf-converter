@@ -270,7 +270,10 @@ imgDropZone.addEventListener('drop', e => { e.preventDefault(); imgDropZone.clas
 imgFileInput.addEventListener('change', e => { addImages(e.target.files); imgFileInput.value=''; });
 
 function addImages(fileList) {
-  Array.from(fileList).filter(f => f.type.startsWith('image/')).forEach(file => {
+  const files = Array.from(fileList)
+    .filter(f => f.type.startsWith('image/'))
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+  files.forEach(file => {
     images.push({ file, url: URL.createObjectURL(file) });
   });
   renderImageGrid();
